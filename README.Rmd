@@ -28,3 +28,4 @@ You can install the development version of **brquasi** from [GitHub](https://git
 # install.packages("devtools")
 devtools::install_github("ikosmidis/brquasi", ref = "develop")
 ```
+
