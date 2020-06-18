@@ -35,7 +35,7 @@
 #'     correction of asymptotic mean bias using empirical bias
 #'     estimates). `"MPQL_trace"` (maximum penalized quasi likelihood
 #'     estimation; see Details).
-#' @param only_beta: Should RBM estimation be used for improving
+#' @param only_beta Should RBM estimation be used for improving
 #'     estimation of the regression coefficients only? Default is
 #'     `TRUE`.
 #' @param slowit a positive real used as a multiplier for the
@@ -45,8 +45,6 @@
 #'     consider. Default is `12`.
 #' @param response_adjustment a (small) positive constant or a vector
 #'     of such. Default is `NULL`. See Details.
-#' @param a mutliple to the additive trace penalty to the quasi
-#'     likelihood when `type = "MPQL_trace"`. See Details.
 #' @param lambda a ridge adjustment to be added to the diagonal of the
 #'     jacobian before inverting it for the computation of the step
 #'     size in the quasi-Fisher iteration. Default is `1e-10`. See
@@ -56,13 +54,9 @@
 #'     which corresponds to "number of observations" minus
 #'     "number of parameters". See Details.
 #'
-#' Describe quasi Fisher iteration
-#'
-#' Describe what RBM
-#'
-#' Describe disp_factor
-#'
 #' @details
+#'
+#' TO ADD: details on iRBM, eRBM, disp_factor
 #'
 #' @export
 brquasiControl <- function(epsilon = 1e-04, maxit = 500,

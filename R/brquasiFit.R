@@ -21,8 +21,8 @@
 #' implicit and explicit reduced-bias M-estimators in Kosmidis &
 #' Lunardon (2020).
 #'
-#' Estimation is performed using a quasi Fisher scoring iteration
-#' (similar to what is described, for example, in
+#' Estimation is performed using a quasi Newton-Raphson iteration
+#' (similar to the quasi Fisher-scoring iteration described, for example, in
 #' `vignette("iteration", "brglm2")`, which, in the case of
 #' mean-bias reduction, resembles an iterative correction of the
 #' asymptotic bias of the Fisher scoring iterates.
@@ -732,8 +732,6 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
          class = "brquasiFit")
 }
 
-#' Compute coefficients
-#'
 #' @export
 coef.brquasiFit <- function(object, model = c("mean", "full", "dispersion"), ...) {
     model <- match.arg(model)

@@ -62,33 +62,24 @@ of such. Default is `NULL`. See Details.}
 \item{max_step_factor}{the maximum number of step halving steps to
 consider. Default is `12`.}
 
+\item{only_beta}{Should RBM estimation be used for improving
+estimation of the regression coefficients only? Default is
+`TRUE`.}
+
 \item{lambda}{a ridge adjustment to be added to the diagonal of the
 jacobian before inverting it for the computation of the step
 size in the quasi-Fisher iteration. Default is `1e-10`. See
 Details.}
 
 \item{disp_factor}{factor by which to divide the sum of pearson
-    residuals when estimating the dispersion. Defauls is `"n-p"`
-    which corresponds to "number of observations" minus
-    "number of parameters". See Details.
-
-Describe quasi Fisher iteration
-
-Describe what RBM
-
-Describe disp_factor}
-
-\item{only_beta:}{Should RBM estimation be used for improving
-estimation of the regression coefficients only? Default is
-`TRUE`.}
-
-\item{a}{mutliple to the additive trace penalty to the quasi
-likelihood when `type = "MPQL_trace"`. See Details.}
+residuals when estimating the dispersion. Defauls is `"n-p"`
+which corresponds to "number of observations" minus
+"number of parameters". See Details.}
 }
 \description{
 Typically only used internally by `brquasiFit()`, but may be used
 to construct a `control` argument.
 }
 \details{
-
+TO ADD: details on iRBM, eRBM, disp_factor
 }
