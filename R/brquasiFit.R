@@ -290,13 +290,14 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
         }
     }
 
-    control <- do.call("brquasiFitControl", control)
+    control <- do.call("brquasiControl", control)
 
-
+    is_correction <- control$type == "eRBM"
     adjustment_function <- switch(control$type,
-                            "iRBM" = RBM_adjustment,
-                            "M" = function(pars, ...) 0,
-                            "MPQL_trace" = NA)
+                                  "iRBM" = RBM_adjustment,
+                                  "eRBM" = RBM_adjustment,
+                                  "M" = function(pars, ...) 0,
+                                  "MPQL_trace" = NA)
 
     ## Some useful quantities
     is_QL <- control$type == "M"
@@ -437,12 +438,12 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
                 adj <- nvars/nobs
             }
             if (family$family == "quasibinomial") {
-                weights.adj <- weights + adj
-                y.adj <- (weights * y + 0.5 * adj)/weights.adj
+                weights.adj <- weights + (!(is_correction)) * adj
+                y.adj <- (weights * y + (!(is_correction)) * 0.5 * adj)/weights.adj
             }
             else {
                 weights.adj <- weights
-                y.adj <- y + if (family$family == "quasipoisson") 0.5 * adj else 0
+                y.adj <- y + if (family$family == "quasipoisson") (!(is_correction)) * 0.5 * adj else 0
             }
             ## ML fit to get starting values
             warn <- getOption("warn")
@@ -529,17 +530,18 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
             inv_jm <- chol2inv(chol(jmat(pars, fit = fit, only_beta = only_beta)))
             emat <- emat(pars, fit = fit, only_beta = only_beta)
             - sum(inv_jm * t(emat))/2
-
         }
 
         ## Allow for the use of generic non-linear equation solvers through a control argument
 
         ############
 
-        slowit <- control$slowit
+        slowit <- if (is_correction) 1 else control$slowit
         only_beta <- control$only_beta
-        lam <- control$lambda
-        maxit <- control$maxit
+        lam <- if (is_correction) 0 else control$lambda
+        maxit <- if (is_correction) 1 else control$maxit
+        max_step_factor <- if (is_correction) 1 else control$max_step_factor
+
         epsilon <- control$epsilon
 
         ## Evaluate at the starting values
@@ -568,7 +570,7 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
             test_step <- TRUE
             step_factor <- 0
             step0_l1 <- step_l1
-            while (test_step & step_factor < control$max_step_factor) {
+            while (test_step & step_factor < max_step_factor) {
                 if (only_beta) {
                     betas <- betas - slowit * step / 2^step_factor
                     theta <- c(betas, dispersion)
@@ -611,7 +613,7 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
         dispersion <- theta["dispersion"]
 
         ## Convergence analysis
-        if (failed || iter >= control$maxit) {
+        if ((failed || iter >= control$maxit) & !(is_correction)) {
             warning("brquasiFit: algorithm did not converge", call. = FALSE)
             converged <- FALSE
         }
@@ -730,6 +732,8 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
          class = "brquasiFit")
 }
 
+#' Compute coefficients
+#'
 #' @export
 coef.brquasiFit <- function(object, model = c("mean", "full", "dispersion"), ...) {
     model <- match.arg(model)
