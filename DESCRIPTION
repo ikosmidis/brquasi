@@ -1,8 +1,7 @@
 Package: brquasi
 Title: Bias reduction in quasi likelihood estimation
-Version: 0.0.0.9000
-Authors@R: c(person(given = "Ioannis", family = "Kosmidis", role = c("aut", "cre"), email = "ioannis.kosmidis@warwick.ac.uk", comment = c(ORCID = "0000-0003-1556-0302")),
-             person(given = "Nicola", family = "Lunardon", role = c("aut"), email = "nicola.lunardon@unimib.it"))
+Version: 0.1
+Authors@R: person(given = "Ioannis", family = "Kosmidis", role = c("aut", "cre"), email = "ioannis.kosmidis@warwick.ac.uk", comment = c(ORCID = "0000-0003-1556-0302"))
 Description: Estimation and inference from quasi likelihoods based on various methods for bias reduction. The 'brquasi' fitting method can achieve reduction of bias either by using the empirical adjustments to the quasi score functions in Kosmidis & Lunardon (2020) or by direct subtraction of an empirical estimate of the bias of the quasi-likelihood estimator. Estimation in all cases takes place via a quasi Newton-Raphson algorithm. 
 Url: https://github.com/ikosmidis/brquasi
 BugReports: https://github.com/ikosmidis/brquasi/issues
