@@ -22,7 +22,7 @@ You can install the development version of **brquasi** from
 [GitHub](https://github.com/) with:
 
     # install.packages("devtools")
-    devtools::install_github("ikosmidis/brquasi", ref = "develop")
+    devtools::install_github("ikosmidis/brquasi")
 
 Issues
 ------
