@@ -194,10 +194,11 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
             else {
                 bmus <- weights * d1mus / varmus
                 d1bmus <- weights * (d2mus / varmus - d1mus^2 * d1varmus / varmus^2)
-                d2bmus <- weights * (d3mus / varmus - (3 * d1mus * d2mus * d1varmus + d1mus^3 * d2varmus) / varmus^2 + 2 * d1mus^3 * d1varmus^2 / varmus^3)
+                d2bmus <- weights * (d3mus / varmus - (3 * d1mus * d2mus * d1varmus + d1mus^3 * d2varmus) / varmus^2 +  d1mus^3 * d1varmus^2 / varmus^3)
                 qmus <- (bmus * d1mus - d1bmus * emus) / dispersion
                 pmus <- bmus * emus / dispersion^2
                 d1qmus <- (2 * d1bmus * d1mus + bmus * d2mus - d2bmus * emus) / dispersion
+
                 if (only_beta) {
                     out <- lapply(seq.int(nvars), function(j) {
                         - crossprod(x * d1qmus * x[, j], x)
@@ -285,7 +286,7 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
         else {
             dm <- dmat(pars, dispersion_block = TRUE, fit = fit, only_beta = only_beta)
             um <- umat(pars, dispersion_block = TRUE, fit = fit, only_beta = only_beta)
-            apsi <- -sum(inv_jm * t(dm)) - sum(sandm * t(um)) / 2
+            apsi <- - sum(inv_jm * t(dm)) - sum(sandm * t(um)) / 2
             c(abeta, apsi)
         }
     }
