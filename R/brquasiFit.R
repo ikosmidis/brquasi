@@ -604,8 +604,13 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
             grad <- step_components$grad
         }
 
-        names(theta) <- c(betas_names, "dispersion")
+        if (only_beta) {
+            ## re-estimate dispersion
+            dispersion <- theta[nvars + 1] <- sum(weights * (y - quantities$mus)^2 / quantities$varmus) / df_residual
+        }
 
+
+        names(theta) <- c(betas_names, "dispersion")
 
         adjusted_grad_all[betas_names] <- grad[betas_names]
         adjusted_grad_all["dispersion"] <- grad[nvars + 1]
