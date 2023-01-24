@@ -58,9 +58,7 @@
 brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
                         mustart = NULL, offset = rep(0, nobs), family = gaussian(),
                         control = list(), intercept = TRUE,
-                        singular.ok = TRUE)
-{
-
+                        singular.ok = TRUE) {
     ## key_quantities, grad, info and bias are ALWAYS in beta, dispersion parameterization
     key_quantities <- function(pars, y, level = 0, qr = TRUE) {
         betas <- pars[seq.int(nvars)]
@@ -172,7 +170,7 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
         crossprod(grad)
     }
 
-    umat <- function(pars, dispersion_block = FALSE, fit = NULL, only_beta = FALSE){
+    umat <- function(pars, dispersion_block = FALSE, fit = NULL, only_beta = FALSE) {
         if (is.null(fit)) {
             fit <- key_quantities(pars, y = y, level = 2, qr = FALSE)
         }
@@ -615,6 +613,7 @@ brquasiFit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = N
 
         adjusted_grad_all[betas_names] <- grad[betas_names]
         adjusted_grad_all["dispersion"] <- grad[nvars + 1]
+
         betas_all[betas_names] <- theta[betas_names]
         dispersion <- theta["dispersion"]
 
